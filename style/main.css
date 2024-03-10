@@ -44,7 +44,7 @@ html, body {
   display: flex;
   justify-content: center;
 
-  margin-top: 10px;
+  margin-top: 60px;
 
   background-color: var(--bg1);
 
@@ -99,7 +99,7 @@ html, body {
   height: calc(100% - (60px + 60px));
 
   margin-top:20px;
-  //margin-bottom: 40px;
+  //margin-bottom: 20px;
 
   padding-left: 80px;
   padding-right: 80px;
@@ -153,6 +153,10 @@ li::marker {color: var(--yellow);}
   font-weight: bold;
   color: var(--green);
   font-size: 17px;
+
+  background-color: var(--bg1);
+  padding: 3px;
+  border-radius: 5px;
 }
 
 .button-function {
@@ -239,4 +243,57 @@ li::marker {color: var(--yellow);}
   background: var(--orange);
   border-radius: 50%;
   border: 0;
+}
+
+.zad_btn {
+  color: var(--fg);
+  font-size: 20px;
+  font-family: Comfortaa;
+
+  background-color: transparent;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  border:0;
+
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-width: 2px;
+  // border-color: var(--bg_green);
+  border-image: linear-gradient(to right top, var(--bg_green) 8%, transparent 90%) 1;
+  padding-left:20px;
+}
+
+.rotate-90 {
+  -moz-transofrm: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+}
+
+.zad_box {
+  display: none; 
+  text-align: justify;
+  text-justify: inter-word;
+  margin-left:30px;
+  border-left:solid;
+  border-image: linear-gradient(to bottom, var(--bg_green) 60%, transparent 95%) 1;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 20px;
+}
+
+.hor_line {
+  border: 0;
+  border-top: 2px dotted var(--bg_red);
+}
+
+pre {
+  width:80%;
+}
+
+.pre-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

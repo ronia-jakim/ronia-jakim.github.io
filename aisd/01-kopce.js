@@ -289,4 +289,3 @@ function draw() {
 
   draw_heap(element_list, element_nr, 'kopiec-ex1', 'kopiec-ex1-div', 'kopiec-ex1-btn', pos_list_x, -1, -1);
 }
-

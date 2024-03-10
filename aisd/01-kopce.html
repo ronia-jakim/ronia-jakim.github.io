@@ -9,6 +9,8 @@
     <meta charset="UTF-8" />
 
     <script src="01-kopce.js"></script>
+    <script src="zadanie-roll-up.js"></script>
+    <script src="01-kopce-heapify.js"></script>
     <script src="prism.js"></script>
     <script type="text/javascript">
     // Optional
@@ -73,10 +75,10 @@
 
             Bardzo często chcemy z pewnej nieuporządkowanej listy elementów <code>lst</code> długości <math><mn>n</mn></math> utworzyć kopiec. Będziemy to robić idąc od liści, które same w sobie są już kopcami, w górę i poprawiając poddrzewo aktualnego wierzchołka tak, by spełniało założenia kopca. Potrzebujemy więc funkcji <code class="language-js">heapify(lst, i)</code>, która naprawia kopiec od wierzchołka <code>i</code> w dół.
 
-            <pre><code class="language-js">
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
 function heapify(lst, i) {
-  l = 2*i;
-  r = 2*i+1;
+  var l = 2*i;
+  var r = 2*i+1;
 
   var largest = i;
 
@@ -98,7 +100,7 @@ function heapify(lst, i) {
     heapify(lst, largest);
   }
 }
-            </code></pre>
+  </code></pre></div>
             Poniżej przykład co funkcja <code class="language-js">heapify(lst, 1)</code> robi z korzeniem losowo wygenerowanego kopca. Przerwy między etapami wynoszą 3 sekund.
           </div>
         </div>
@@ -114,7 +116,275 @@ function heapify(lst, i) {
           </div>
         </div>
 
+      <div class="text-cont">
+        Do problemy budowy kopca można podejść na wiele sposobów. Możemy zacząć od jednoelementowej listy reprezentującej kopiec i dokładać kolejne elementy na jej koniec, przeciągając je w górę na odpowiednie miejsce:
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function slow_create_heap(lst) {
+  for (let i = 2; i <= n; i++) {
+    // wstawiamy element na miejsce i, zapisujemy indeks
+    var k = i;
+    // wciągamy element i tak wysoko jak się da
+    do {
+      var j = k;
+      // jeśli nie jesteśmy w korzeniu i rodzic (j/2) jest mniejszy, to zamień
+      if (j > 1 && lst[j/2] < lst[k]) k = j / 2;
+      var temp = lst[j];
+      lst[j] = lst[k];
+      lst[k] = temp;
+    } while (j != k);
+  }
+}
+  </code></pre></div>
+        Zewnętrzna pętla wykona się <math><mn>n</mn></math> razy, natomiast wewnętrzna pętla wykona się <math><mi>log</mi><mspace width="0.1667em"></mspace><mn>n</mi></math> razy, jeśli będziemy za każdym razem wciągać do góry. To znaczy, że dla listy posegregowanej rosnąco, powyższy algorytm wykona <math><mn>n</mn><mi>log</mi><mspace width="0.1667em"></mspace><mn>n</mn></math> obrotów. Nie jest to satysfakcjonująca złożoność.</br>
+
+        Drugie, wspomniane już wcześniej podejście, to ściąganie elementów na dół przy pomocy funkcji <code class="language-js">heapify(lst, i)</code>. Wiemy, że jednoelementowe drzewo zawsze jest kopcem, czyli elementy odpowiadające liściom (
+<math>
+  <mrow>
+    <mi>x</mi>
+    <mo>≥</mo>
+  </mrow>
+  <mrow>
+    <mo form="prefix" stretchy="false">⌊</mo>
+    <mrow>
+      <mi>log</mi>
+      <mo>⁡</mo>
+      <mspace width="0.1667em"></mspace>
+    </mrow>
+    <mi>n</mi>
+    <mo form="postfix" stretchy="false">⌋</mo>
+  </mrow>
+</math>
+) początkowo nie wymagają ściągnięcia na dół. Możemy więc zacząć od wywoływania <code class="language-js">heapify(lst, i)</code> na kolejnych wewnętrznych wierzchołkach, stopniowo ściągając te z najmniejszymi kluczami na dół
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function create_heap(lst) {
+  for (let i = Math.floor(lst.length/2); i > 0; i--) {
+    heapify(lst, i);
+  }
+}
+  </code></pre></div>
+        Poniżej działanie funkcji <code class="language-js">create_heap(lst)</code> dla losowo wygenerowanej listy <code class="language-js">lst</code>.
       </div>
+        
+      <div class="inline-showcase">
+        <div id="kopiec-ex3-div" class="text-cont" style="width:70%; display:flex; flex-direction: column; justify-content: flex-start; align-items: center; border-top-style: solid; border-bottom-style: solid;">
+          
+          <button type=button class="button-function" id="kopiec-ex3-btn" onclick="make_heap_show(1, 5000)"><code>losuj</code></button>
+          
+          <input type="range" id="kopiec-ex3-slider" class="example-slider" style="opacity:0;" min="0" max="100" onchange="update_heap_make(this.value)" />
+          
+          <canvas style="margin-top: 10px;" id="kopiec-ex3"></canvas>
+        </div>
+      </div>
+      <div class="text-cont">
+        <h3 class="subsection-title">kolejka piorytetowa</h3>
+        Struktura danych <code>S</code>, która pozwala wykonać następujące operacje:
+        <ul style="width:85%;">
+          <li><code class="language-js">insert(S, x)</code> wstawia element <code>x</code> do <code>S</code> z zachowaniem porządku</li>
+          <li><code class="language-js">maximum(S)</code> zwraca największy element znajdujący się w <code>S</code></li>
+          <li><code class="language-js">change_key(S, x, new_key)</code> zmienia wartość klucza <code>x</code> na wartość <code>new_key</code>, przy czym <code>new_key >= x</code></li>
+        </ul>
+        nazywa się <span class="emph">kolejką piorytetową</span>. Do implementacji kolejki piorytetowej użyjemy kopca, który pozwala na szybki dostęp do największego elementu i jest w stanie w wydajny sposób skorygować swój porządek.<br/>
+
+
+        Operację <code>maximum</code> możemy zrobić na dwa sposoby. Pierwszy to po prostu odczytanie wartości z wierzchu kopca:
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function maximum (S) {
+  return S[1];
+}
+  </code></pre></div>
+Możemy też chcieć od razu po odczytaniu korzenia, usunąć go z kolejki (np. nadpisując go elementem z końca listy i zapominając o ogonie). Musimy wtedy upewnić się, że pozostała struktura nadal zachowuje porządek kopca:
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function maximum (S) {
+  if (S.size < 1) {
+    error("kopiec jest pusty");
+  }
+  var m = S[1];
+  // wstaw dowolny, np ostatni, element na szczyt kopca
+  S[1] = S[S.size];
+  // zapomnij o tym, co aktualnie jest na końcu
+  S.size--;
+  // przywróć porządek
+  heapify(S, 1);
+  return m;
+}
+  </code></pre></div>
+Funkcja <code class="language-js">change_key(S, x, new_key)</code> zmienia wartość tak jak chcemy, po czym wyciąga zmieniony element tak wysoko jak to możliwe:
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function change_key(S, x, new_key) {
+  if (new_key < S[x]) {
+    error("nowy klucz jest mniejszy"); 
+  }
+  S[x] = new_key;
+  
+  // dopóki nie jesteśmy na szczycie i rodzic jest mniejszy
+  while (x > 1 && S[Math.floor(x/2)] < S[x]) {
+    // zamień x z rodzicem
+    var temp = S[x];
+    S[x] = S[Math.floor(x/2)];
+    S[Math.floor(x/2)] = temp;
+    x = Math.floor(x/2);
+  }
+}
+  </code></pre></div>
+
+Wstawienie nowego elementu do kolejki możemy znowu zrobić na dwa sposoby, w zależności od tego, co mamy dostępne. Zwykle robimy to wstawiając nowy element na koniec listy i podciągając go w górę tak długo jak to jest możliwe:
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function insert (S, x) {
+  S.size++;
+  S[S.size] = x;
+  
+  var i = S.size;
+  while(i > 1 && S[Math.floor(x/2)) {
+    var temp = S[i];
+    S[i] = S[Math.floor(i/2)]
+    S[Math.floor(i/2)] = temp;
+    i = Math.floor(i/2);
+  }
+}
+  </code></pre></div>
+Zuważmy, że pętla <code class="language-js">while()</code> pojawiająca się w kodzie jest niemalże identyczną kopią tej, która pojawia się w funkcji <code class="language-js">change_key(S, x, new_key)</code>. Możemy to wykorzystać, jeśli w języku istnieje wartość <code>∞</code> lub jeśli wiemy, jakie jest najmniejsze ograniczenie na wartości, które mogą pojawić się w kolejce.
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function insert (S, x) {
+  S.size++;
+  S[S.size] = -∞;
+  change_key(S, S.size, x);
+}
+  </code></pre></div>
+
+
+
+
+
+        <b style="font-size: 20px;">Zadanie 1.</b></br>
+        <button type="button" onclick="handle_zadanie('zad1')" class="zad_btn"> <div id="zad1-btn">></div></button>
+        <div id="zad1-div" class="zad_box">
+          <i>Porządkiem topologicznym</i> wierzchołków acyklicznego digrafu <math><mn>G=(V, E)</mn></math> nazywamy taki liniowy porządek jego wierzchołków, w którym początek każdej krawędzi występuję przed jej końcem. Jeśli wierzchołki z <math><mn>V</mn></math> utożsamimy z początkowymi liczbami naturalnymi, to każdy ich porządek liniowy można opisać permutacją liczb <math><mn>1,2,...,|V|</mn></math>; w szczególności pozwala to na porównywanie leksykograficzne porządków.</br>
+
+          Ułóż algorytm, który dla danego acyklicznego digrafu znajduje pierwszy leksykograficznie porządek topologiczny.
+          <hr class="hor_line" />
+
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+// edge_list - lista zawierająca pary (poczatek, koniec) krawędzi
+var result = [];
+var in_table = n * [0];
+
+// zapisz ilość krawędzi wchodzących do każdego wierzchołka
+for (let i = 0; i < edge_nr; i++) in_table[edge_list[i][1]]++;
+
+var heap = [];
+// sortuję względem ilości krawędzi wchodzących i nr wierzchołka
+for (let i = 0; i < n; i++) insert(heap, i);
+
+while (!empty(heap)) {
+  // usuń wierzchołek bez wchodzących krawędzi i o najmniejszej wartości
+  var m = minimum(heap);
+  result.push(m);
+  for (let i = 0; i < edge_nr; i++) {
+    // wyjęliśmy m, zmniejsz stopień wchodzący jego dzieci
+    if (edge_list[i][0] == m) in_table[edge_list[i][1]]--;
+  }
+}
+
+  </code></pre></div>
+
+        </div>
+        <b style="font-size:20px;">Zadanie 2.</b></br>
+        <button type="button" onclick="handle_zadanie('zad2')" class="zad_btn"> <div id="zad2-btn">></div></button>
+        <div id="zad2-div" class="zad_box">
+          Niech <math><mn>u</mn></math> i <math><mn>v</mn></math> będą dwoma wierzchołkami w grafie nieskierowanym <math><mn>G=(V, E; c)</mn></math>, gdzie
+          <math>
+  <mrow>
+    <mi>c</mi>
+    <mo lspace="0.2222em" rspace="0.2222em">:</mo>
+  </mrow>
+  <mrow>
+    <mi>E</mi>
+    <mo>→</mo>
+  </mrow>
+  <mrow>
+    <msub>
+      <mi>ℝ</mi>
+      <mo form="prefix" stretchy="false">+</mo>
+    </msub>
+  </mrow>
+</math>
+jest funkcją wagową. Mówimy, że droga 
+<math>
+  <mrow>
+    <mi>u</mi>
+    <mo>=</mo>
+  </mrow>
+  <mrow>
+    <msub>
+      <mi>u</mi>
+      <mn>1</mn>
+    </msub>
+    <mo separator="true">,</mo>
+  </mrow>
+  <mrow>
+    <msub>
+      <mi>u</mi>
+      <mn>2</mn>
+    </msub>
+    <mo separator="true">,</mo>
+  </mrow>
+  <mrow>
+    <mi>.</mi>
+    <mi>.</mi>
+    <mi>.</mi>
+    <mo separator="true">,</mo>
+  </mrow>
+  <mrow>
+    <msub>
+      <mi>u</mi>
+      <mi>n</mi>
+    </msub>
+    <mo>=</mo>
+  </mrow>
+  <mrow>
+    <mi>v</mi>
+  </mrow>
+</math>
+z <math><mn>u</mn></math> do <math><mn>v</mn></math> jest sensowa, jeśli dla każdego <math>
+  <mrow>
+    <mi>i</mi>
+    <mo>=</mo>
+  </mrow>
+  <mrow>
+    <mn>2</mn>
+    <mo separator="true">,</mo>
+  </mrow>
+  <mrow>
+    <mi>.</mi>
+    <mi>.</mi>
+    <mi>.</mi>
+    <mo separator="true">,</mo>
+  </mrow>
+  <mrow>
+    <mi>k</mi>
+  </mrow>
+</math> istnieje droga z <math>
+  <msub>
+    <mi>u</mi>
+    <mi>i</mi>
+  </msub>
+</math> do <math><mn>v</mn></math> krótsza od każdej drogi z <math>
+  <msub>
+    <mi>u</mi>
+    <mi>i-1</mi>
+  </msub>
+</math> do <math><mn>v</mn></math> (przez długość drogi rozumiemy sumę wag jej krawędzi).<br/>
+Ułóż algorytm, który dla danego <math><mn>G</mn></math> oraz wierzchołków <math><mn>u</mn></math> i <math><mn>v</mn></math> wyznaczy liczbę sensownych dróg z <math><mn>u</mn></math> do <math><mn>v</mn></math>.
+          <hr class="hor_line" />
+
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+to be coded
+  </code></pre></div>
+
+        </div>
+      </div>
+      </div>
+
 
     </div>
   </body>
