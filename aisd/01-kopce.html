@@ -99,13 +99,17 @@ function heapify(lst, i) {
   }
 }
             </code></pre>
-            Poniżej przykład co funkcja <code class="language-js">heapify(lst, 1)</code> robi z losowo wygenerowanym kopcem, przerwy między etapami wynoszą 5 sekund.
+            Poniżej przykład co funkcja <code class="language-js">heapify(lst, 1)</code> robi z korzeniem losowo wygenerowanego kopca. Przerwy między etapami wynoszą 5 sekund.
           </div>
         </div>
 
         <div class="inline-showcase">
           <div id="kopiec-ex2-div" class="text-cont" style="width:70%; display:flex; flex-direction: column; justify-content: flex-start; align-items: center; border-top-style: solid; border-bottom-style: solid;">
-            <button type=button class="button-function" id="kopiec-ex2-btn" onclick="heapify_showcase(1, 5000)"><code>heapify(lst, 1)</code></button>
+            
+            <button type=button class="button-function" id="kopiec-ex2-btn" onclick="heapify_showcase(1, 5000)"><code>losuj</code></button>
+            
+            <input type="range" id="kopiec-ex2-slider" class="example-slider" style="opacity:0;" min="0" max="100" onchange="update_heapify(this.value)" />
+            
             <canvas style="margin-top: 10px;" id="kopiec-ex2"></canvas>
           </div>
         </div>

@@ -208,3 +208,35 @@ li::marker {color: var(--yellow);}
   justify-content: center;
 }
 
+.example-slider {
+  margin-top: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 60%;
+  height: 10px;
+
+  outline: none;
+  background: var(--bg_green);
+  opacity: 0.3s;
+
+  border-radius: 5px;
+}
+
+.example-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--orange);
+}
+
+.example-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--orange);
+  border-radius: 50%;
+  border: 0;
+}

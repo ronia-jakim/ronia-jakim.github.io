@@ -3,7 +3,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function draw_heap(lst, n, cnv_id, div_id, btn_id, pos_list_x, emph) {
+function draw_heap(lst, n, cnv_id, div_id, btn_id, pos_list_x, emph1, emph2) {
   var depth = Math.ceil(Math.log2(n+1));
   var canvas = document.getElementById(cnv_id);
   var canvas_div = document.getElementById(div_id);
@@ -38,8 +38,9 @@ function draw_heap(lst, n, cnv_id, div_id, btn_id, pos_list_x, emph) {
     if (i == 2**(line_height+1)) line_height = line_height+1;
     ctx.beginPath();
     ctx.arc(pos_list_x[i], 18 + line_height * 60, 15, 0, 2*Math.PI);
-    if (i!=emph) ctx.fillStyle = "#DBBC7F";
-    else ctx.fillStyle = "#A7C080";
+    if (i != emph1 && i != emph2) ctx.fillStyle = "#DBBC7F";
+    else if (i != emph2) ctx.fillStyle = "#A7C080";
+    else ctx.fillStyle = "#E69875";
     ctx.fill();
 
     ctx.font = "bold 13px Comfortaa";
@@ -50,11 +51,13 @@ function draw_heap(lst, n, cnv_id, div_id, btn_id, pos_list_x, emph) {
 
 }
 
-async function hh_show(j, wait_time, element_list, element_nr, pos_list_x){
-  draw_heap(element_list, element_nr, 'kopiec-ex2', 'kopiec-ex2-div', 'kopiec-ex2-btn', pos_list_x, j);
+var is_playing = false;
+var swapped_pairs = [];
 
-  console.log(j);
-  console.log(element_list);
+var global_list = [];
+
+async function hh_show(j, wait_time, element_list, element_nr, pos_list_x){
+  //draw_heap(element_list, element_nr, 'kopiec-ex2', 'kopiec-ex2-div', 'kopiec-ex2-btn', pos_list_x, j);
 
   l = 2*j;
   r = 2*j+1;
@@ -62,12 +65,10 @@ async function hh_show(j, wait_time, element_list, element_nr, pos_list_x){
   var largest = j;
 
   if (l <= element_nr && element_list[l] > element_list[j]) {
-    console.log("tutaj mamy l: " + l.toString() + " oraz j: " + j.toString());
     largest = l;
   }
 
   if (r <= element_nr && element_list[r] > element_list[largest]) {
-    console.log("tutaj mamy r: " + r.toString() + " oraz j: " + j.toString());
     largest = r;
   }
 
@@ -77,16 +78,15 @@ async function hh_show(j, wait_time, element_list, element_nr, pos_list_x){
     element_list[j] = element_list[largest];
     element_list[largest] = temp;
 
-    await sleep(wait_time);
-
-    // i sprawdź dzieci largest
-    console.log("wywołuję teraz na: " + largest.toString());
+    swapped_pairs.push([j, largest]);
     hh_show(largest, wait_time, element_list, element_nr, pos_list_x);
   }
-  //draw_heap(element_list, element_nr, 'kopiec-ex2', 'kopiec-ex2-div', 'kopiec-ex2-btn', pos_list_x, largest);
 }
 
-function heapify_showcase(j, wait_time) {
+async function heapify_showcase(j, wait_time) {
+  if (is_playing) return;
+  swapped_pairs = [];
+  global_list = [];
   var element_nr = 3 + Math.floor(Math.random() * 10);
   
   var element_list = [];
@@ -94,8 +94,17 @@ function heapify_showcase(j, wait_time) {
   var depth = Math.ceil(Math.log2(element_nr+1));
   
   for (let i = 1; i <= element_nr; i++) {
-    element_list[i] = Math.floor(Math.random () * 90);
+    element_list[i] = Math.floor(Math.random () * (90 - 5*(element_nr-i)));
   }
+
+  if (element_list[1] > element_list[2]) element_list[1] = element_list[2]-1;
+
+  for (let i = 0; i <= element_nr; i++) {
+    global_list[i] = element_list[i];
+  }
+
+  var slider_div = document.getElementById('kopiec-ex2-slider');
+  slider_div.style.opacity = "1.0";
 
   var canvas_div = document.getElementById('kopiec-ex2-div');
   var cnv_width = canvas_div.clientWidth;
@@ -124,7 +133,92 @@ function heapify_showcase(j, wait_time) {
     (cnv_width/2)+160
   ];
 
-  hh_show(j, wait_time, element_list, element_nr, pos_list_x);
+  hh_show(j, wait_time, element_list, element_nr, pos_list_x); 
+  
+  slider_div.min=0;
+  slider_div.max=swapped_pairs.length;
+
+  for (let i = swapped_pairs.length - 1; i >= 0; i--) {
+    var temp = element_list[swapped_pairs[i][0]];
+    element_list[swapped_pairs[i][0]] = element_list[swapped_pairs[i][1]];
+    element_list[swapped_pairs[i][1]] = temp;
+  }
+
+  is_playing = true;
+  slider_div.value = 0;
+
+  draw_heap(element_list, element_nr, 'kopiec-ex2', 'kopiec-ex2-div', 'kopiec-ex2-btn', pos_list_x, -1, swapped_pairs[0][0]);
+  await sleep(5000);
+
+  for(let i = 0; i < swapped_pairs.length; i++) {
+    if (!is_playing) break;
+
+    var temp = element_list[swapped_pairs[i][0]];
+    element_list[swapped_pairs[i][0]] = element_list[swapped_pairs[i][1]];
+    element_list[swapped_pairs[i][1]] = temp;
+    
+    draw_heap(element_list, element_nr, 'kopiec-ex2', 'kopiec-ex2-div', 'kopiec-ex2-btn', pos_list_x, swapped_pairs[i][0], swapped_pairs[i][1]);
+    
+    slider_div.value = i+1;
+
+    await sleep(5000);
+  }
+
+  is_playing = false;
+}
+
+function update_heapify(val) {
+  var canvas_div = document.getElementById('kopiec-ex2-div');
+  var cnv_width = canvas_div.clientWidth;
+  
+  is_playing = false;
+
+  var n = global_list.length;
+
+  var local_list = [];
+
+  for (let i = 0; i < n; i++) {
+    local_list[i] = global_list[i];
+  }
+
+  for (let i = 0; i < val; i++) {
+    var temp = local_list[swapped_pairs[i][0]];
+    local_list[swapped_pairs[i][0]] = local_list[swapped_pairs[i][1]];
+    local_list[swapped_pairs[i][1]] = temp;
+  }
+  
+  var pos_list_x = [
+    0,
+    cnv_width/2,
+
+    (cnv_width/2)-80, 
+    (cnv_width/2)+80,
+
+    (cnv_width/2)-80-40,
+    (cnv_width/2)-80+40,
+
+    (cnv_width/2)+80-40,
+    (cnv_width/2)+80+40,
+
+    (cnv_width/2)-160,
+    (cnv_width/2)-120,
+    (cnv_width/2)-80,
+    (cnv_width/2)-40,
+
+    (cnv_width/2)+40,
+    (cnv_width/2)+80,
+    (cnv_width/2)+120,
+    (cnv_width/2)+160
+  ];
+
+  var prev = -1;
+  var now = -1;
+  if (val != 0) {
+    prev = swapped_pairs[val-1][0];
+    now = swapped_pairs[val-1][1];
+  }
+
+  draw_heap(local_list, n-1, 'kopiec-ex2', 'kopiec-ex2-div', 'kopiec-ex2-btn', pos_list_x, prev, now);
 }
 
 function heapify(lst, i, n) {
@@ -194,6 +288,6 @@ function draw() {
     heapify(element_list, i, element_nr);
   }
 
-  draw_heap(element_list, element_nr, 'kopiec-ex1', 'kopiec-ex1-div', 'kopiec-ex1-btn', pos_list_x, -1);
+  draw_heap(element_list, element_nr, 'kopiec-ex1', 'kopiec-ex1-div', 'kopiec-ex1-btn', pos_list_x, -1, -1);
 }
 
