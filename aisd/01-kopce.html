@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>kopce binarne</title>
+    <link rel="icon" href="kycia.png">
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/aisd/01-kopce.css">
+    <link rel="stylesheet" href="../style/aisd/prism.css">
+    <meta charset="UTF-8" />
+
+    <script src="01-kopce.js"></script>
+    <script src="prism.js"></script>
+    <script type="text/javascript">
+    // Optional
+    Prism.plugins.NormalizeWhitespace.setDefaults({
+      'remove-trailing': true,
+      'remove-indent': true,
+      'left-trim': true,
+      'right-trim': true,
+    });
+    </script>
+  </head>
+  <body>
+    <div class="link_menu">
+      <div class="button-horizontal-container">
+        <button type="button" class="button-main" onclick="window.location.href='../index.html'">home</button>
+        <button type="button" class="button-main">experience</button>
+        <button type="button" class="button-main">projects</button>
+        <button type="button" class="button-main" onclick="window.location.href='aisd-main.html'">aisd</button>
+        <button type="button" class="button-main">math</button>
+      </div>
+    </div>
+
+    <div class="main-container">
+
+      <div style="display: flex; flex-direction: column; justify-content: flex-start; width: 100%; height: 100%;">
+
+        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+          <div class="text-cont" style="width:50%;">
+            <h2>Kopiec</h2>
+
+            <h3 class="subsection-title">definicja</h3>
+            Rozważamy drzewa binarne o wysokości <math><mn>d</mn></math>, których wierzchołki zawierają klucze z liniowo uporządkowanego zbioru. To znaczy, że umiemy porównywać każde dwa elementy tego zbioru. </br>
+
+            Drzewo (prawie) binarne jest <span class="emph">kopcem</span>, jeśli dzieci każdego wierzchołka mają taki sam lub mniejszy klucz. To znaczy, że schodząc w dół po drzewie nigdy nie napotkamy elemntu większego niż te, które już widzieliśmy. Dodatkowo chcemy, aby kopiec był zapełniany zawsze od lewej do prawej i nowy "wiersz" tworzymy dopiero kiedy poprzedni poziom będzie w całości zapełniony. Innymi słowy, w kopcu głębokości <math><mn>d</mn></math> wszystkie liście są na poziomie <math><mn>d</mn></math> lub czasem <math><mn>(d-1)</mn></math>.
+          </div>
+          
+          <div class="text-cont" style="width: 40%; margin-top: 20px; margin-bottom: 60px; border-top-style: solid; border-bottom-style: solid; display: flex; flex-direction:column; justify-content: flex-start; align-items: center;" id="kopiec-ex1-div">
+            <button type=button class="button-function" onclick="draw()" id="kopiec-ex1-btn">wygeneruj kopiec</button>
+            <canvas style="margin-top: 10px;" id="kopiec-ex1"></canvas>
+          </div>
+        </div>
+
+        <div class="second">
+          <div class="text-cont">
+            Warunki wyżej możemy podzielić na dwie grupy i napisać bardziej formalnie:
+            <ol style="width: 85%;">
+              <li> Struktura drzewa:</li>
+                <ul>
+                  <li> wszystkie liście znajdują się na głębokości <math><mn>d</mn></math> lub <math><mn>(d-1)</mn></math></li>
+                  <li> wszystkie liście z poziomu <math><mn>(d-1)</mn></math> leżą na prawo od wszystkich wierzchołków wewnętrznych z tego poziomu (zapełniamy od lewej do prawej)</li>
+                  <li> skrajnie prawy wierzchołek wewnętrzny poziomu <math><mn>(d-1)</mn></math> jest jedynym wierzchołkiem wewnętrznym, który może mieć jedno dziecko</li>
+                </ul>
+              <li>Uporządkowanie</li>
+              <ul>
+                <li>klucz w każdym wierzchołku wewnętrznym jest niemniejszy od kluczy w jego potomkach</li>
+              </ul>
+            </ol>
+
+            Kopce możemy reprezentować jako zwykłą listę, w której pierwszy element odpowiada korzeniowi drzewa, elementy <math><mn>2</mn></math> i <math><mn>3</mn></math> odpowiadają jego dzieciom, a elementy od <math><msup><mn>2</mn><mn>n</mn></msup></math> do <math><msup><mn>(2</mn><mn>n+1</mn></msup><mn>-1)</mn></math> odpowiadają wierzchołkom na poziomie <math><mn>n</mn></math>. W takiej reprezentacji, dzieci wierzchołka <math><mn>x</mn></math> stoją na pozycjach <math><mn>2x</mn></math> oraz <math><mn>(2x+1)</mn></math> </br>
+
+            <h3 class="subsection-title">budowanie kopca</h3>
+
+            Bardzo często chcemy z pewnej nieuporządkowanej listy elementów <code>lst</code> długości <math><mn>n</mn></math> utworzyć kopiec. Będziemy to robić idąc od liści, które same w sobie są już kopcami, w górę i poprawiając poddrzewo aktualnego wierzchołka tak, by spełniało założenia kopca. Potrzebujemy więc funkcji <code class="language-js">heapify(lst, i)</code>, która naprawia kopiec od wierzchołka <code>i</code> w dół.
+
+            <pre><code class="language-js">
+function heapify(lst, i) {
+  l = 2*i;
+  r = 2*i+1;
+
+  var largest = i;
+
+  if (l <= n && lst[l] > lst[i]) {
+    largest = l;
+  }
+
+  if (r <= n && lst[r] > lst[largest]) {
+    largest = r;
+  }
+
+  if (largest != i) {
+    // jeśli i nie jest największe - zamień
+    var temp = lst[i];
+    lst[i] = lst[largest];
+    lst[largest] = temp;
+
+    // i sprawdź dzieci largest
+    heapify(lst, largest);
+  }
+}
+            </code></pre>
+          </div>
+        </div>
+
+        <div class="inline-showcase">
+          <div id="kopiec-ex2-div" class="text-cont" style="width:70%; display:flex; flex-direction: column; justify-content: flex-start; align-items: center; border-top-style: solid; border-bottom-style: solid;">
+            <button type=button class="button-function" id="kopiec-ex2-btn" onclick="heapify_showcase(1, 5000)"><code>heapify(lst, 1)</code></button>
+            <canvas style="margin-top: 10px;" id="kopiec-ex2"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>

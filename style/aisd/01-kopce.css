@@ -1,0 +1,19 @@
+.second{
+  font-size: 14px;
+  font-family: Comfortaa;
+  color: var(--fg);
+
+  text-align: justify;
+  text-justify: inter-word;
+
+  line-height: 1.8;
+
+  //padding: 20px 10px 30px;
+  padding: 0px;
+  
+  background-color: var(--bg0);
+  border-top: 2px solid; 
+  border-image: linear-gradient(to right, transparent calc(50% + 22px), var(--bg_dim) calc(50% + 22px)) 100% 1;
+
+  width: calc(100%-20px);
+}
