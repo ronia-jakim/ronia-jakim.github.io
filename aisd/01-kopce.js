@@ -148,9 +148,10 @@ async function heapify_showcase(j, wait_time) {
   slider_div.value = 0;
 
   draw_heap(element_list, element_nr, 'kopiec-ex2', 'kopiec-ex2-div', 'kopiec-ex2-btn', pos_list_x, -1, swapped_pairs[0][0]);
-  await sleep(5000);
 
   for(let i = 0; i < swapped_pairs.length; i++) {
+    if (!is_playing) break;
+    await sleep(3000);
     if (!is_playing) break;
 
     var temp = element_list[swapped_pairs[i][0]];
@@ -160,8 +161,6 @@ async function heapify_showcase(j, wait_time) {
     draw_heap(element_list, element_nr, 'kopiec-ex2', 'kopiec-ex2-div', 'kopiec-ex2-btn', pos_list_x, swapped_pairs[i][0], swapped_pairs[i][1]);
     
     slider_div.value = i+1;
-
-    await sleep(5000);
   }
 
   is_playing = false;
@@ -212,7 +211,7 @@ function update_heapify(val) {
   ];
 
   var prev = -1;
-  var now = -1;
+  var now = 1;
   if (val != 0) {
     prev = swapped_pairs[val-1][0];
     now = swapped_pairs[val-1][1];
