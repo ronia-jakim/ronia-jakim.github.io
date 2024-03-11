@@ -23,6 +23,9 @@
     </script>
   </head>
   <body>
+    <div class="page-name">
+      Weronika Jakimowicz
+    </div>
     <div class="link_menu">
       <div class="button-horizontal-container">
         <button type="button" class="button-main" onclick="window.location.href='../index.html'">home</button>
@@ -44,7 +47,7 @@
             <h3 class="subsection-title">definicja</h3>
             Rozważamy drzewa binarne o wysokości <math><mn>d</mn></math>, których wierzchołki zawierają klucze z liniowo uporządkowanego zbioru. To znaczy, że umiemy porównywać każde dwa elementy tego zbioru. </br>
 
-            Drzewo (prawie) binarne jest <span class="emph">kopcem</span>, jeśli dzieci każdego wierzchołka mają taki sam lub mniejszy klucz. To znaczy, że schodząc w dół po drzewie nigdy nie napotkamy elemntu większego niż te, które już widzieliśmy. Dodatkowo chcemy, aby kopiec był zapełniany zawsze od lewej do prawej i nowy "wiersz" tworzymy dopiero kiedy poprzedni poziom będzie w całości zapełniony. Innymi słowy, w kopcu głębokości <math><mn>d</mn></math> wszystkie liście są na poziomie <math><mn>d</mn></math> lub czasem <math><mn>(d-1)</mn></math>.
+            Drzewo (prawie) binarne jest <span class="emph">kopcem</span>, jeśli <span class="acc">dzieci każdego wierzchołka mają taki sam lub mniejszy klucz</span>. To znaczy, że schodząc w dół po drzewie nigdy nie napotkamy elemntu większego niż te, które już widzieliśmy. Dodatkowo chcemy, aby kopiec był <span class="acc">zapełniany zawsze od lewej do prawej</span> i nowy "wiersz" tworzymy dopiero kiedy poprzedni poziom będzie w całości zapełniony. Innymi słowy, w kopcu głębokości <math><mn>d</mn></math> wszystkie liście są na poziomie <math><mn>d</mn></math> lub czasem <math><mn>(d-1)</mn></math>.
           </div>
           
           <div class="text-cont" style="width: 40%; margin-top: 20px; margin-bottom: 60px; border-top-style: solid; border-bottom-style: solid; display: flex; flex-direction:column; justify-content: flex-start; align-items: center;" id="kopiec-ex1-div">
@@ -69,11 +72,11 @@
               </ul>
             </ol>
 
-            Kopce możemy reprezentować jako zwykłą listę, w której pierwszy element odpowiada korzeniowi drzewa, elementy <math><mn>2</mn></math> i <math><mn>3</mn></math> odpowiadają jego dzieciom, a elementy od <math><msup><mn>2</mn><mn>n</mn></msup></math> do <math><msup><mn>(2</mn><mn>n+1</mn></msup><mn>-1)</mn></math> odpowiadają wierzchołkom na poziomie <math><mn>n</mn></math>. W takiej reprezentacji, dzieci wierzchołka <math><mn>x</mn></math> stoją na pozycjach <math><mn>2x</mn></math> oraz <math><mn>(2x+1)</mn></math> </br>
+            Kopce możemy reprezentować jako <span class="emph">zwykłą listę</span>, w której pierwszy element odpowiada korzeniowi drzewa, elementy <math><mn>2</mn></math> i <math><mn>3</mn></math> odpowiadają jego dzieciom, a elementy od <math><msup><mn>2</mn><mn>n</mn></msup></math> do <math><msup><mn>(2</mn><mn>n+1</mn></msup><mn>-1)</mn></math> odpowiadają wierzchołkom na poziomie <math><mn>n</mn></math>. W takiej reprezentacji, <span class="acc">dzieci wierzchołka <math><mn>x</mn></math> stoją na pozycjach <math><mn>2x</mn></math> oraz <math><mn>(2x+1)</mn></math></span> </br>
 
             <h3 class="subsection-title">budowanie kopca</h3>
 
-            Bardzo często chcemy z pewnej nieuporządkowanej listy elementów <code>lst</code> długości <math><mn>n</mn></math> utworzyć kopiec. Będziemy to robić idąc od liści, które same w sobie są już kopcami, w górę i poprawiając poddrzewo aktualnego wierzchołka tak, by spełniało założenia kopca. Potrzebujemy więc funkcji <code class="language-js">heapify(lst, i)</code>, która naprawia kopiec od wierzchołka <code>i</code> w dół.
+            Podczas dokładania elementów do kopca jego porządek często zostaje zaburzony. To samo ma miejsce, gdy zmienimy klucz któregoś z wierzchołków lub wyciągniemy go. Z tego powodu, potrzebujemy funkcji <code class="language-js">heapify(lst, i)</code>, która <span class="acc">naprawia porządek kopca</span> <code>lst</code> o <code>n</code> elementach na wierzchołku <code>i</code>, przesuwając go w dół jeśli jest taka potrzeba.
 
 <div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
 function heapify(lst, i) {
@@ -135,9 +138,10 @@ function slow_create_heap(lst) {
   }
 }
   </code></pre></div>
-        Zewnętrzna pętla wykona się <math><mn>n</mn></math> razy, natomiast wewnętrzna pętla wykona się <math><mi>log</mi><mspace width="0.1667em"></mspace><mn>n</mi></math> razy, jeśli będziemy za każdym razem wciągać do góry. To znaczy, że dla listy posegregowanej rosnąco, powyższy algorytm wykona <math><mn>n</mn><mi>log</mi><mspace width="0.1667em"></mspace><mn>n</mn></math> obrotów. Nie jest to satysfakcjonująca złożoność.</br>
+  Zewnętrzna pętla wykona się <math><mn>n</mn></math> razy, natomiast wewnętrzna pętla wykona się <math><mi>log</mi><mspace width="0.1667em"></mspace><mn>n</mi></math> razy, jeśli każdy dodany wierzchołek będziemy za każdym razem wciągać do góry do korzenia. To znaczy, że dla listy posegregowanej rosnąco, powyższy algorytm wykona <math><mn>n</mn><mi>log</mi><mspace width="0.1667em"></mspace><mn>n</mn></math> obrotów. <span class="emph">Nie jest to satysfakcjonująca złożoność</span>.<br />
+  <br/>
 
-        Drugie, wspomniane już wcześniej podejście, to ściąganie elementów na dół przy pomocy funkcji <code class="language-js">heapify(lst, i)</code>. Wiemy, że jednoelementowe drzewo zawsze jest kopcem, czyli elementy odpowiadające liściom (
+        Drugie podejście, to ściąganie elementów na dół przy pomocy wcześniej napisanej funkcji <code class="language-js">heapify(lst, i)</code>. Wiemy, że jednoelementowe drzewo zawsze jest kopcem, czyli elementy odpowiadające liściom (
 <math>
   <mrow>
     <mi>x</mi>
@@ -154,7 +158,7 @@ function slow_create_heap(lst) {
     <mo form="postfix" stretchy="false">⌋</mo>
   </mrow>
 </math>
-) początkowo nie wymagają ściągnięcia na dół. Możemy więc zacząć od wywoływania <code class="language-js">heapify(lst, i)</code> na kolejnych wewnętrznych wierzchołkach, stopniowo ściągając te z najmniejszymi kluczami na dół
+) początkowo nie wymagają ściągnięcia na dół. Możemy więc zacząć od wywoływania <code class="language-js">heapify(lst, i)</code> na kolejnych wewnętrznych wierzchołkach, <span class="acc">stopniowo ściągając te z najmniejszymi kluczami na dół</span>
 <div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
 function create_heap(lst) {
   for (let i = Math.floor(lst.length/2); i > 0; i--) {
@@ -162,6 +166,43 @@ function create_heap(lst) {
   }
 }
   </code></pre></div>
+  W tym przypadku kod wykona się <math><mn>O(n)</mn></math> razy. Wierzchołki wewnętrze, których jest około <math><mfrac><mn>n</mn><mn>2</mn></mfrac></math>, w najgorszym przypadku spadną co najmniej jeden raz. Wyższe wierzchołki wewnętrzne, których jest <math><mfrac><mn>n</mn><mn>4</mn></math>, w najgorszym przypadku wykonają co najmniej <math><mn>2</mn></math> upadki i tak dalej. Licząc ile wierzchołków spadnie jak wiele razy, dostajemy
+<math display="block" class="tml-display" style="display:block math;">
+  <mrow>
+    <mrow>
+      <munderover>
+        <mo movablelimits="false">∑</mo>
+        <mrow>
+          <mi>i</mi>
+          <mo>=</mo>
+          <mn>1</mn>
+        </mrow>
+        <mrow>
+          <mrow>
+            <mspace width="0.1667em"></mspace>
+            <mi>log</mi>
+            <mo>⁡</mo>
+            <mspace width="0.1667em"></mspace>
+          </mrow>
+          <mi>n</mi>
+        </mrow>
+      </munderover>
+    </mrow>
+    <mfrac>
+      <mi>n</mi>
+      <msup>
+        <mn>2</mn>
+        <mi>k</mi>
+      </msup>
+    </mfrac>
+    <mo>=</mo>
+    <mi>n</mi>
+    <mo>−</mo>
+    <mn>1</mn>
+  </mrow>
+</math>
+obrotów <code class="language-js">create_heap(lst)</code>. </br>
+
         Poniżej działanie funkcji <code class="language-js">create_heap(lst)</code> dla losowo wygenerowanej listy <code class="language-js">lst</code>.
       </div>
         
