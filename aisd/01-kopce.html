@@ -217,6 +217,62 @@ obrotów <code class="language-js">create_heap(lst)</code>. </br>
         </div>
       </div>
       <div class="text-cont">
+        <h3 class="subsection-title">heapsort</h3>
+
+        Kopce potrafimy tworzyć w czasie <math><mn>O(n)</mn></math> i wiemy, że zawsze w korzeniu mają one element ekstremalny. Możemy więc wykorzystać je do sortowania listy.</br>
+
+  Algorytm <span class="emph">heapsort</span> polega na stworzeniu kopca z dowolnej <math><mn>n</mn></math> elementowej listy <code>lst</code>, a następnie powtórzeniu <math><mn>n</mn></math> krotnie króków
+  <ol style="width:85%">
+    <li>wstaw wartości z korzenia na koniec wyniku</li> 
+    <li>kopiuj wartości z ostatniego liścia kopca do korzenia</li> 
+    <li>zepchni nowy korzeń w dół (przy pomocy <code class="language-js">heapify(lst, 1)</code>).
+  </ol>
+  Cały algorytm prezentuje się następująco:
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function heapsort(lst) {
+  create_heap(lst);
+  var result = [];
+
+  for (let i = n; i >= 2; i--) {
+    result.push(lst[1]);
+
+    heapify(lst, 1);
+  }
+  return result;
+}
+  </code></pre></div>
+
+  Sama funkcja <code class="language-js">create_heap(lst)</code> kosztuje nas
+  <math>
+  <mrow>
+    <mi>O</mi>
+    <mo form="prefix" stretchy="false">(</mo>
+    <mi>n</mi>
+    <mo form="postfix" stretchy="false">)</mo>
+  </mrow>
+  </math>, natomiast każde wywołanie funkcji <code class="language-js">heapify(lst, 1)</code> spycha wartość w korzeniu co najwyżej <math>
+  <mrow>
+    <mrow>
+      <mi>log</mi>
+      <mo>⁡</mo>
+      <mspace width="0.1667em"></mspace>
+    </mrow>
+    <mi>n</mi>
+  </mrow>
+  </math> razy w dół (całą głębokość kopca). Takiego spychania dokonujemy <math><mn>n</mn></math> razy, czyli <span class="acc">złożoność całego algorytmu wynosi <math>
+  <mrow>
+    <mi>O</mi>
+    <mo form="prefix" stretchy="false">(</mo>
+    <mrow>
+    <mn>n</mn><mi>log</mi>
+      <mo>⁡</mo>
+      <mspace width="0.1667em"></mspace>
+    </mrow>
+    <mi>n</mi>
+    <mo form="postfix" stretchy="false">)</mo>
+  </mrow>
+    </math></span>.
+
         <h3 class="subsection-title">kolejka piorytetowa</h3>
         Struktura danych <code>S</code>, która pozwala wykonać następujące operacje:
         <ul style="width:85%;">
@@ -423,6 +479,63 @@ to be coded
   </code></pre></div>
 
         </div>
+
+        <h3 class="subsection-title">kolejka min-max</h3>
+
+        Kolejka piorytetowa przedstawiona wyżej była kolejką maksimum lub minimum, w zależności od wybory porządku na zbiorze kluczy (zwykle liczb). Przydatne jest jednak, by czasem móc w szybki sposób <span class="acc">znajdować jednocześnie element najmniejszy jak i element największy</span>. </br>
+
+Najprostsza implementacja takiej kolejki wymagałaby pamiętania dwóch kopców, jeden sortowany rosnąco a drugi malejąco, oraz położenia jednego wierzchołka w obu kopcach jednocześnie. Mankamentem takiego podejścia jest kilkukrotne magazynowanie tej samej informacji, a co za tym idzie - nieoszczędność pamięci.
+</br>
+</br>
+
+Możemy podejść do problemu bardziej oszczędnie. Niech <math><mn>L</mn></math> będzie kopcem pamiętającym <math>
+  <mrow>
+    <mo form="prefix" stretchy="false">⌊</mo>
+    <mfrac>
+      <mi>n</mi>
+      <mn>2</mn>
+    </mfrac>
+    <mo form="postfix" stretchy="false">⌋</mo>
+  </mrow>
+</math>
+
+elementów kolejki, uporządkowanym malejąco, natomiast w <math><mn>H</mn></math> trzymajmy
+<math>
+  <mrow>
+    <mo form="prefix" stretchy="false">⌈</mo>
+    <mfrac>
+      <mi>n</mi>
+      <mn>2</mn>
+    </mfrac>
+    <mo form="postfix" stretchy="false">⌉</mo>
+  </mrow>
+</math> elementów, posortowanych rosnąco. W takiej konstrukcji, możemy znaleźć w naturalny sposób zdefiniować ścieżki od korzenia kopca <math><mn>L</mn></math> do korzenia kopca <math><mn>H</mn></math>, na których każdy element jest mniejszy od swojego następnika. </br>
+</br>
+
+Pisząc zwięźle, <span class="emph">kolejka min-max składa się z dwóch kopców</span> <math><mn>L</mn></math> i <math><mn>H</mn></math> takich, że 
+<ol style="width:85%">
+  <li> <math><mn>H</mn></math> zawiera <math>
+  <mrow>
+    <mo form="prefix" stretchy="false">⌈</mo>
+    <mfrac>
+      <mi>n</mi>
+      <mn>2</mn>
+    </mfrac>
+    <mo form="postfix" stretchy="false">⌉</mo>
+  </mrow>
+    </math> elementów, natomiast <math><mn>L</mn></math> ma ich <math>
+  <mrow>
+    <mo form="prefix" stretchy="false">⌊</mo>
+    <mfrac>
+      <mi>n</mi>
+      <mn>2</mn>
+    </mfrac>
+    <mo form="postfix" stretchy="false">⌋</mo>
+  </mrow>
+    </math> sztuk</li>
+    <li><math><mn>H</mn></math> sortujemy rosnąco, a <math><mn>L</mn></math> jest uporządkowany malejąco</li>
+    <li> dozwolone ścieżki od korzenia <math><mn>L</mn></math> do korzenia <math><mn>H</mn></math> są uporządkowane rosnąco. </li>
+</ol>
       </div>
       </div>
 
