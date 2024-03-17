@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>kopce binarne</title>
-    <link rel="icon" href="kycia.png">
+    <link rel="icon" href="../kycia.png">
     <link rel="stylesheet" href="../style/main.css">
     <link rel="stylesheet" href="../style/aisd/01-kopce.css">
     <link rel="stylesheet" href="../style/aisd/prism.css">
@@ -485,7 +485,61 @@ Ułóż algorytm, który dla danego <math><mn>G</mn></math> oraz wierzchołków 
           <hr class="hor_line" />
 
 <div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
-to be coded
+neighbours // lista sąsiedztwa zawierająca pary (sasiad, waga)
+
+shortest = [0, infty, infty,..., infty]; // aktualnie 
+// najkrótsza droga z wierzchołka i do końca v
+
+queue = [0:n] // kolejka sortowana względem wartości 
+// odpowiadającej i w shortest
+
+// tablica pilnująca, czy przeszliśmy już przez dany wierzchołek
+marked = n * [false];
+
+for (let i = 0; i < n; i++) {
+  // zdejmij najbliższy wierzchołek z kopca
+  var w = minimum(queue);
+  // jego aktualna odgległość od początku
+  var d  shortest[w];
+
+  // jeśli odległość wynosi nieskończoność, to znaczy że nie uda nam 
+  // się pójść dalej
+  if (d == infty) break;
+
+  // udało nam się przejść, więc zaznaczamy
+  marked[w] = true;
+
+  // dla każdego sąsiada w musimy zmienić wartość najkrótszej drogi
+  for (let i = 0; i < neighbours[w].length; i++) {
+    var edge_weight = neighbours[w][i].second;
+
+    if (edge_weight != -1) {
+      var curr_len = shortest[i];
+      var new_len = min(curr_len, d + edge_weight);
+
+      if (new_len < curr_len) 
+        change_key(queue, [i, curr_len], [i, new_len]);
+    }
+  }
+}
+
+marked = n * [false];
+
+function search_for_paths (current) {
+  if (current == v) return 1;
+
+  result = 0;
+  
+  for (let i = 0; i < neighbours[current].length; i++) {
+    var next = neightbours[current][i] 
+    if (!marked[next] && shortest[current] >= shortest[next])
+      result += search_for_paths(next);
+  }
+  return result;
+}
+
+search_for_paths(0);
+
   </code></pre></div>
 
         </div>
