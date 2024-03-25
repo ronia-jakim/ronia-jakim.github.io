@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>kopce binarne</title>
+    <title>kopce i kolejki</title>
     <link rel="icon" href="../kycia.png">
     <link rel="stylesheet" href="../style/main.css">
     <link rel="stylesheet" href="../style/aisd/01-kopce.css">
@@ -600,6 +600,55 @@ Pisząc zwięźle, <span class="emph">kolejka min-max składa się z dwóch kopc
     <li><math><mn>H</mn></math> sortujemy rosnąco, a <math><mn>L</mn></math> jest uporządkowany malejąco</li>
     <li> dozwolone ścieżki od korzenia <math><mn>L</mn></math> do korzenia <math><mn>H</mn></math> są uporządkowane rosnąco. </li>
 </ol>
+
+Pozostaje nam napisać zmodyfikować operacje z kolejki piorytetowej na kolejkę min-max.
+
+<div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+function min_max_insert(A, x) {
+  // sprawdzamy, czy kolejka A ma parzystą ilość elementów
+  if (!(A.size % 2)) {
+    A.size++;
+    A.H.size++;
+    A.H[A.H.size] = x;
+
+    // poprzednik x na drodze do korzenia L
+    var y = A.L[A.L.size];
+    if (y > x) {
+      A.H[A.H.size] = y;
+      A.L[A.L.size] = x;
+
+      // wciągamy x tak wysoko jak to możliwe po L
+      // nie psuje to porządku, bo inny następnik y w H jest większy od y, który jest większy od x
+      heapify(A.L, A.L.size);
+    }
+    else {
+      heapify(A.H, A.H.size);
+    }
+
+  }
+  else {
+    A.size++;
+    A.L.size++;
+    A.L[A.L.size] = x;
+
+    // poprzednik x na drodze do korzenia H
+    var y = A.H.[A.L.size];
+
+    if (y < x) {
+      A.H[A.L.size] = x;
+      A.L[A.L.size] = y;
+
+      // wciągamy x tak wysoko po H jak to możliwe
+      heapify(A.H, A.L.size);
+    }
+    else {
+      // x pozostał w L, więc wciągamy go tak wysoko jak to możliwe w tym kopcu
+      heapify(A.L, A.L.size);
+    }
+  }
+}
+</code></pre></div>
+
       </div>
       </div>
 

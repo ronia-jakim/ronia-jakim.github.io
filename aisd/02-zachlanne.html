@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>algorytmy zachłanne</title>
+    <link rel="icon" href="../kycia.png">
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/aisd/prism.css">
+    <meta charset="UTF-8" />
+    
+    <script src="01-kopce.js"></script>
+    <script src="zadanie-roll-up.js"></script>
+    <script src="01-kopce-heapify.js"></script>
+    <script src="prism.js"></script>
+    <script type="text/javascript">  
+    // Optional
+    Prism.plugins.NormalizeWhitespace.setDefaults({
+      'remove-trailing': true,
+      'remove-indent': true,
+      'left-trim': true,
+      'right-trim': true,
+    });
+    </script>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+  <body>
+    <div class="page-name">
+      Weronika Jakimowicz
+    </div>
+  <div class="link_menu">
+    <div class="button-horizontal-container">
+      <button type="button" class="button-main" onclick="window.location.href='../index.html'">home</button>
+      <button type="button" class="button-main">experience</button>
+      <button type="button" class="button-main">projects</button>
+        <button type="button" class="button-main" onclick="window.location.href='aisd-main.html'">aisd</button>
+      <button type="button" class="button-main">math</button>
+    </div>
+  </div>
+
+<div class="main-container">
+
+  <div style="display: flex; flex-direction: column; justify-content: flex-start; width: 100%; height: 100%;">
+
+    <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+      <div class="text-cont">
+
+    Zacznijmy od przykładu zadania.
+    <br>
+
+    <h4>Przykład</h4>
+    <span class="emph">DANE:</span> Mamy banknot o wartości $R$ i chcemy rozmienić go na monety o nominałach $c_1,c_2,...,c_k$.
+    <br>
+    <span class="emph">ZADANIE:</span> Rozmienić baknot na możliwe najmniejszą liczbę monet.
+
+
+    <div style="width:100%;display:flex; justify-content: center;"><pre><code class="language-js">
+result = [0] * k; 
+
+function find_exchange (R, curr_coins) {
+if (R == 0) return 0;
+
+var succes = -1;
+var min_nr = infty;
+
+for (let i = 1; i = k; i++) {
+if (R >= c[i]) {
+  var temp = find_exchange(R-c[i], curr_coins + 1);
+  if (temp  min_nr) {
+    min_nr = temp;
+    succes = i;
+  }
+}
+}
+
+result[i]++;
+return min_nr;
+}
+    </code></pre></div>
+
+    Rozwiązanie tego zadania budujemy od pustego zbioru monet. Potem sprawdzamy nominały od najwyższego i dorzucamy je na odpowiednią kupkę wyniku aż do momentu, gdy $R$ stanie się mniejsze od aktualnego nominału.
+      </div>
+    </div>
+  </div>
+</div>
+  </body>
+</html>

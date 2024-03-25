@@ -130,7 +130,7 @@ html, body {
 }
 
 .text-cont {
-  font-size: 15px;
+  font-size: 17px;
   font-family: Comfortaa;
   color: var(--fg);
 
@@ -167,7 +167,7 @@ li::marker {color: var(--yellow);}
 .emph {
   font-weight: bold;
   color: var(--green);
-  font-size: 18px;
+  font-size: 19px;
 
   background-color: var(--bg1);
   padding: 3px;
@@ -176,8 +176,14 @@ li::marker {color: var(--yellow);}
 
 .acc {
   color: var(--orange);
-  font-size: 16px;
+  font-size: 18px;
   font-style: italic;
+}
+
+h4 {
+  color: var(--orange);
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .button-function {
