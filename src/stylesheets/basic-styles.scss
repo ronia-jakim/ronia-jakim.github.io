@@ -4,70 +4,12 @@ body {
   background-color: colors_fonts.$bg0;
   padding: 0px;
   margin: 0px;
+  height:2000px;
 }
 
-.main-title {
-  font-size: 45px;
-  font-family: Righteous;
-  color: colors_fonts.$green;
-
-  background-color: colors_fonts.$bg2;
-
-  padding-top:    10px;
-  padding-left:   11%;
-  padding-bottom: 0px;
+.header_main_menu {
   width: 100%;
-
-  border-style: solid;
-  border-width: 0px 0px 1px 0px;
-  border-color: colors_fonts.$green-light;
-}
-
-.button-menu {
-  width: 80%;
-
-  padding: 0px;
-  margin-left: 10%;
-
-  display:flex;
-  justify-content: space-around;
-
-  // background-color: colors_fonts.$green;
-}
-
-.button-main {
-  font-family: Righteous;
-  font-size: 18px;
-  font-weight: 100;
-
-  color: colors_fonts.$green;
-
-  border-width: 0px 1px 1px 1px;
-  border-radius: 0px 0px 10px 10px;
-  border-style: solid; 
-  border-color: colors_fonts.$green-light;
+  height: 100vh;
 
   background-color: colors_fonts.$bg1;
-
-  padding-top: 3px;
-  padding-bottom: 5px;
-
-  width: 150px;
 }
-
-.button-main:hover {
-  color: colors_fonts.$bg1;
-
-  border-width: 0px 1px 1px 1px;
-  border-radius: 0px 0px 10px 10px;
-  border-style: solid; 
-  border-color: colors_fonts.$green-light;
-
-  background-color: colors_fonts.$green-light;
-
-  padding-top: 3px;
-  padding-bottom: 5px;
-
-  width: 150px;
-}
-

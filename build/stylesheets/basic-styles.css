@@ -1,68 +1,17 @@
-@font-face {
-  font-family: Cabin;
-  src: url(../fonts/Cabin/Cabin.ttf);
-}
-@font-face {
-  font-family: Righteous;
-  src: url(../fonts/Righteous/Righteous-Regular.ttf);
-}
-@font-face {
-  font-family: ArchivoBlack;
-  src: url(../fonts/Archivo_Black/ArchivoBlack-Regular.ttf);
-}
-body {
-  background-color: #F3EAD3;
-  padding: 0px;
-  margin: 0px;
-}
+/* Error: Undefined variable.
+ *   ,
+ * 4 |   background-color: colors_fonts.$bg0;
+ *   |                     ^^^^^^^^^^^^^^^^^
+ *   '
+ *   src/stylesheets/basic-styles.scss 4:21  root stylesheet */
 
-.main-title {
-  font-size: 45px;
-  font-family: Righteous;
-  color: #8DA101;
-  background-color: #E5DFC5;
-  padding-top: 10px;
-  padding-left: 11%;
-  padding-bottom: 0px;
-  width: 100%;
-  border-style: solid;
-  border-width: 0px 0px 1px 0px;
-  border-color: #93B259;
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Undefined variable.\a   \2577 \a 4 \2502    background-color: colors_fonts.$bg0;\a   \2502                      ^^^^^^^^^^^^^^^^^\a   \2575 \a   src/stylesheets/basic-styles.scss 4:21  root stylesheet";
 }
-
-.button-menu {
-  width: 80%;
-  padding: 0px;
-  margin-left: 10%;
-  display: flex;
-  justify-content: space-around;
-}
-
-.button-main {
-  font-family: Righteous;
-  font-size: 18px;
-  font-weight: 100;
-  color: #8DA101;
-  border-width: 0px 1px 1px 1px;
-  border-radius: 0px 0px 10px 10px;
-  border-style: solid;
-  border-color: #93B259;
-  background-color: #EAE4CA;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  width: 150px;
-}
-
-.button-main:hover {
-  color: #EAE4CA;
-  border-width: 0px 1px 1px 1px;
-  border-radius: 0px 0px 10px 10px;
-  border-style: solid;
-  border-color: #93B259;
-  background-color: #93B259;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  width: 150px;
-}
-
-/*# sourceMappingURL=basic-styles.css.map */

@@ -1,22 +1,14 @@
-// green: #BFDC6D
-// dark green: #808670
-// dark brown: #5C4C49
-// light blue: #ABBEDE
-// red: #DB7C6E
-// dark blue: #49505C
-
-
 @font-face {
   font-family: Cabin;
   src: url(../fonts/Cabin/Cabin.ttf);
 }
-
 @font-face {
   font-family: Righteous;
   src: url(../fonts/Righteous/Righteous-Regular.ttf);
 }
-
 @font-face {
   font-family: ArchivoBlack;
   src: url(../fonts/Archivo_Black/ArchivoBlack-Regular.ttf);
 }
+
+/*# sourceMappingURL=colors_fonts.css.map */
