@@ -1,0 +1,36 @@
+@use 'colors_fonts';
+
+.year {
+  font-weight: 600;
+  font-family: UbuntuMono;
+  font-size: 24px;
+
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.content {
+  padding-left: 15px;
+}
+
+table td + td { 
+  border-left: 7px solid colors_fonts.$subtitle; 
+}
+
+.odd {
+  border-color: colors_fonts.$highlight;
+}
+
+.table_holder {
+  margin-top: 60px;
+
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  font-size: 16px;
+  font-family: KantumruyPro;
+  color: colors_fonts.$maintext; 
+  
+}

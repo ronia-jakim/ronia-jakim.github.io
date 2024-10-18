@@ -14,6 +14,14 @@
   font-family: UbuntuMono;
   src: url(../fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf);
 }
+@font-face {
+  font-family: SpaceMono;
+  src: url(../fonts/Space_Mono/SpaceMono-Regular.ttf);
+}
+@font-face {
+  font-family: KantumruyPro;
+  src: url(../fonts/KantumruyPro/KantumruyPro-VariableFont_wght.ttf);
+}
 html {
   background-color: #ECDFCC;
 }
@@ -66,6 +74,31 @@ body {
   cursor: pointer;
   color: #DA8359;
   font-weight: 600;
+}
+
+.main_container {
+  margin-top: 30px;
+  margin-left: 40px;
+  margin-right: 40px;
+  font-size: 16px;
+  font-family: KantumruyPro;
+  color: #614537;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.acc {
+  font-weight: 600;
+  background-color: rgba(165, 182, 141, 0.3);
+}
+
+ul li {
+  padding: 5px;
 }
 
 /*# sourceMappingURL=basic-styles.css.map */

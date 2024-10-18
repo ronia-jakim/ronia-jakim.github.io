@@ -11,9 +11,11 @@ $bg2: #FAF0E1;
 $title: #708059;
 $subtitle: #A5B68D;
 
+$maintext: #614537;
+
 $highlight: #DA8359;
 
-$accent: #A5B68D;
+$accent: rgba(165, 182, 141, .3);
 $temp: #DA8359;
 
 @font-face {
@@ -34,4 +36,14 @@ $temp: #DA8359;
 @font-face {
   font-family: UbuntuMono;
   src: url(../fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf);
+}
+
+@font-face {
+  font-family: SpaceMono;
+  src: url(../fonts/Space_Mono/SpaceMono-Regular.ttf);
+}
+
+@font-face {
+  font-family: KantumruyPro;
+  src: url(../fonts/KantumruyPro/KantumruyPro-VariableFont_wght.ttf);
 }

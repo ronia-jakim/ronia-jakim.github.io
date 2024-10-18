@@ -62,3 +62,33 @@ body {
   color: colors_fonts.$highlight;
   font-weight: 600;
 }
+
+.main_container {
+  //width: 100%;
+  margin-top: 30px;
+
+  margin-left: 40px;
+  margin-right: 40px;
+
+  font-size: 16px;
+  font-family: KantumruyPro;
+  color: colors_fonts.$maintext; 
+  
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.acc {
+  font-weight: 600;
+  // color: colors_fonts.$highlight;
+  background-color: colors_fonts.$accent;
+}
+
+ul li {
+  padding: 5px;
+}
