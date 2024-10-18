@@ -1,17 +1,71 @@
-/* Error: Undefined variable.
- *   ,
- * 4 |   background-color: colors_fonts.$bg0;
- *   |                     ^^^^^^^^^^^^^^^^^
- *   '
- *   src/stylesheets/basic-styles.scss 4:21  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Undefined variable.\a   \2577 \a 4 \2502    background-color: colors_fonts.$bg0;\a   \2502                      ^^^^^^^^^^^^^^^^^\a   \2575 \a   src/stylesheets/basic-styles.scss 4:21  root stylesheet";
+@font-face {
+  font-family: Cabin;
+  src: url(../fonts/Cabin/Cabin.ttf);
 }
+@font-face {
+  font-family: Righteous;
+  src: url(../fonts/Righteous/Righteous-Regular.ttf);
+}
+@font-face {
+  font-family: ArchivoBlack;
+  src: url(../fonts/Archivo_Black/ArchivoBlack-Regular.ttf);
+}
+@font-face {
+  font-family: UbuntuMono;
+  src: url(../fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf);
+}
+html {
+  background-color: #ECDFCC;
+}
+
+body {
+  background-color: #FCFAEE;
+  padding: 0px;
+  margin: 0px;
+  height: 2000px;
+}
+
+.header_main_menu {
+  width: 100%;
+  height: 90px;
+  background-color: #ECDFCC;
+  font-family: ArchivoBlack;
+  font-size: 40px;
+  color: #708059;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.button_holder {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.button_holder button {
+  width: 150px;
+  height: 30px;
+  margin-right: 5px;
+  margin-left: 5px;
+  background-color: #FAF0E1;
+  color: #A5B68D;
+  font-family: UbuntuMono;
+  font-size: 18px;
+  border: none;
+  border-style: none solid solid solid;
+  border-color: #ECDFCC;
+  border-width: 2px;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.button_holder button:hover {
+  cursor: pointer;
+  color: #DA8359;
+  font-weight: 600;
+}
+
+/*# sourceMappingURL=basic-styles.css.map */

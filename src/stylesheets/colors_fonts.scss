@@ -5,6 +5,16 @@
 // red: #DB7C6E
 // dark blue: #49505C
 
+$bg: #FCFAEE;
+$bg1: #ECDFCC;
+$bg2: #FAF0E1;
+$title: #708059;
+$subtitle: #A5B68D;
+
+$highlight: #DA8359;
+
+$accent: #A5B68D;
+$temp: #DA8359;
 
 @font-face {
   font-family: Cabin;
@@ -19,4 +29,9 @@
 @font-face {
   font-family: ArchivoBlack;
   src: url(../fonts/Archivo_Black/ArchivoBlack-Regular.ttf);
+}
+
+@font-face {
+  font-family: UbuntuMono;
+  src: url(../fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf);
 }
