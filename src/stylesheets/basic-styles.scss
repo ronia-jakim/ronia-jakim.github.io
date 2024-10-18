@@ -67,10 +67,10 @@ body {
   //width: 100%;
   margin-top: 30px;
 
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: calc(max(20%, 40px));
+  margin-right: calc(max(20%, 40px));
 
-  font-size: 16px;
+  font-size: 18px;
   font-family: KantumruyPro;
   color: colors_fonts.$maintext; 
   
@@ -91,4 +91,9 @@ p {
 
 ul li {
   padding: 5px;
+}
+
+a {
+  color: colors_fonts.$maintext;
+  text-decoration: none;
 }

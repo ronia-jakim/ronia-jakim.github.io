@@ -78,9 +78,9 @@ body {
 
 .main_container {
   margin-top: 30px;
-  margin-left: 40px;
-  margin-right: 40px;
-  font-size: 16px;
+  margin-left: max(20%, 40px);
+  margin-right: max(20%, 40px);
+  font-size: 18px;
   font-family: KantumruyPro;
   color: #614537;
   text-align: justify;
@@ -99,6 +99,11 @@ p {
 
 ul li {
   padding: 5px;
+}
+
+a {
+  color: #614537;
+  text-decoration: none;
 }
 
 /*# sourceMappingURL=basic-styles.css.map */
