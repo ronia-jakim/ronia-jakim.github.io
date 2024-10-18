@@ -1,0 +1,18 @@
+@font-face {
+  font-family: Cabin;
+  src: url(../fonts/Cabin/Cabin.ttf);
+}
+@font-face {
+  font-family: Righteous;
+  src: url(../fonts/Righteous/Righteous-Regular.ttf);
+}
+@font-face {
+  font-family: ArchivoBlack;
+  src: url(../fonts/Archivo_Black/ArchivoBlack-Regular.ttf);
+}
+@font-face {
+  font-family: UbuntuMono;
+  src: url(../fonts/Ubuntu_Mono/UbuntuMono-Regular.ttf);
+}
+
+/*# sourceMappingURL=colors_fonts.css.map */
